@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/LucasCanete/Pong/compare/v1.1.0...v1.2.0) (2026-10-20)
+
+
+### Features
+
+* multiplataform build to release ([7c4f1fc](https://github.com/LucasCanete/Pong/commit/7c4f1fce8f2bbf00db34a5d4d632dcdbf02beecc))
+
 # [1.1.0](https://github.com/LucasCanete/Pong/compare/v1.0.1...v1.1.0) (2026-10-20)
 
 
