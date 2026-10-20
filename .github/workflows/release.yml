@@ -11,22 +11,21 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.sr.outputs.new_release_published }}
+      version: ${{ steps.sr.outputs.new_release_version }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - uses: actions/setup-node@v4
+      - id: sr
+        uses: cycjimmy/semantic-release-action@v4
         with:
-          node-version: 22
-
-      - run: npm ci
-
-      # Opcional: compilar y testear antes de publicar
-      # - run: make && make test
-
-      - run: npx semantic-release
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/git
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
