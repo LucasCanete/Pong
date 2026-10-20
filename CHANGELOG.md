@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/LucasCanete/Pong/compare/v1.2.0...v1.2.1) (2026-10-20)
+
+
+### Bug Fixes
+
+* test builds multiplatafor ([c8025b2](https://github.com/LucasCanete/Pong/commit/c8025b2ed3a6fb496876e4e03202de130bd2344d))
+
 # [1.2.0](https://github.com/LucasCanete/Pong/compare/v1.1.0...v1.2.0) (2026-10-20)
 
 
