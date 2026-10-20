@@ -1,0 +1,3 @@
+/home/lucas/Devspace/pong/build/CMakeFiles/pong.dir
+/home/lucas/Devspace/pong/build/CMakeFiles/edit_cache.dir
+/home/lucas/Devspace/pong/build/CMakeFiles/rebuild_cache.dir
