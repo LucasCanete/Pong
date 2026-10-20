@@ -29,3 +29,50 @@ jobs:
       - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+build:
+  needs: release
+  if: needs.release.outputs.published == 'true'
+  strategy:
+    fail-fast: false
+    matrix:
+      include:
+        - os: ubuntu-latest
+          artifact: pong-linux-x86_64
+          binary: build/pong
+        - os: macos-latest
+          artifact: pong-macos-arm64
+          binary: build/pong
+        - os: windows-latest
+          artifact: pong-windows-x86_64.exe
+          binary: build/Release/pong.exe
+  runs-on: ${{ matrix.os }}
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: v${{ needs.release.outputs.version }}
+
+    - name: Dependencias (Linux)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libgl1-mesa-dev libx11-dev libxrandr-dev \
+          libxi-dev libxcursor-dev libxinerama-dev libwayland-dev \
+          libxkbcommon-dev
+
+    - name: Configurar
+      shell: bash
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+    - name: Compilar
+      shell: bash
+      run: cmake --build build --config Release
+
+    - name: Subir al release
+      shell: bash
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        cp "${{ matrix.binary }}" "${{ matrix.artifact }}"
+        gh release upload "v${{ needs.release.outputs.version }}" "${{ matrix.artifact }}" --clobber
