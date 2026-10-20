@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/LucasCanete/Pong/compare/v1.2.1...v1.2.2) (2026-10-20)
+
+
+### Bug Fixes
+
+* changed release.yml for automatic builds ([f28ce4e](https://github.com/LucasCanete/Pong/commit/f28ce4ef8db0368df74cc00516e99183cc38a589))
+
 ## [1.2.1](https://github.com/LucasCanete/Pong/compare/v1.2.0...v1.2.1) (2026-10-20)
 
 
