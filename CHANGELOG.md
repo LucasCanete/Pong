@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/LucasCanete/Pong/compare/v1.2.2...v1.2.3) (2026-10-21)
+
+
+### Bug Fixes
+
+* use FetchContent for raylib ([4f8b942](https://github.com/LucasCanete/Pong/commit/4f8b942ff5f619b62089b0e7ef63f46e1ac3fe56))
+
 ## [1.2.2](https://github.com/LucasCanete/Pong/compare/v1.2.1...v1.2.2) (2026-10-20)
 
 
