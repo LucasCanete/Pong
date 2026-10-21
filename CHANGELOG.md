@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/LucasCanete/Pong/compare/v1.2.4...v1.3.0) (2026-10-21)
+
+
+### Features
+
+* added second player and score counting ([aa651ae](https://github.com/LucasCanete/Pong/commit/aa651ae8d44a77b166d869b84384c153c48fa822))
+
 ## [1.2.4](https://github.com/LucasCanete/Pong/compare/v1.2.3...v1.2.4) (2026-10-21)
 
 
