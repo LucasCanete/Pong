@@ -2,10 +2,11 @@ cmake_minimum_required(VERSION 3.20)
 project(pong C)
 
 set(CMAKE_C_STANDARD 11)
-find_package(raylib REQUIRED)
 
+include(FetchContent)
+set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 
-# Uses raylib installed if exists; if not it downloads it
 find_package(raylib 5.5 QUIET)
 if(NOT raylib_FOUND)
     FetchContent_Declare(
