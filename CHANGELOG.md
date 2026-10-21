@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/LucasCanete/Pong/compare/v1.2.3...v1.2.4) (2026-10-21)
+
+
+### Bug Fixes
+
+* yml now compatible with linux 22.04 ([9a3e493](https://github.com/LucasCanete/Pong/commit/9a3e493130470576b3fe65a25dc45f93ec84c83f))
+
 ## [1.2.3](https://github.com/LucasCanete/Pong/compare/v1.2.2...v1.2.3) (2026-10-21)
 
 
