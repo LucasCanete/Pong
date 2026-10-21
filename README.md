@@ -8,7 +8,7 @@ Simple Pong game built with C and Raylib
 2. [Install](#install)
 3. [Getting Started](#getting-started)
 
-# About the project
+## About the project
 
 Pong. Everyone knows it. Made a thousand times by many others before me. Why bother pushing another version of this game? Well, because I wanted to learn
 to use Raylib (it seemed fun) and also i wanted to learn about:
@@ -28,6 +28,9 @@ works accordingly. The next features to be implemented are:
 
 
 
-# Install
+## Install
+On the right side, go to releases and check the latest version pushed to this repository.
+The features are described with each version. Each version also includes 3 files to download (for linux, mac and windows).
+Click on the file with your operating system to download it. Afterwards, just make it executable and click on it to start playing!
 
-# Getting started
+## Getting started
