@@ -4,11 +4,15 @@
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
 
+
 //Padding of x
 #define FIELD_X 10
 
 //Padding of y
 #define FIELD_Y 10
+
+#define RACKET_MARGIN (2*FIELD_X)
+#define RACKET_WIDTH 10
 
 typedef enum {
     PLAYER_1,
@@ -125,7 +129,7 @@ void detectCollision(Racket *racket, Ball *ball) {
                 ball->velocity_y *= -1;
             }
             // detect collision with racket on left field-side
-            if (ball_and_racket_with_same_x && ball_at_height_of_racket_2 && ball->velocity_x < 0) {
+            else if (ball_and_racket_with_same_x && ball_at_height_of_racket_2 && ball->velocity_x < 0) {
                 //only modify velocity vector in x
                 ball->velocity_x *= -1;
             }
@@ -175,8 +179,8 @@ int main(void) {
 
     // ------------- define rackets ------------------
     Racket racket = {
-        .position = {(float)screenWidth - 3*FIELD_X, (float)screenHeight/2},
-        .width = 10,
+        .position = {(float)screenWidth - RACKET_MARGIN - RACKET_WIDTH, (float)screenHeight/2},
+        .width = RACKET_WIDTH,
         .height = 60,
         .velocity = 120.0f,
         .player = PLAYER_1,
@@ -184,8 +188,8 @@ int main(void) {
     };
 
     Racket racket_2 = {
-        .position = {3*FIELD_X,(float)screenHeight/2},
-        .width = 10,
+        .position = {RACKET_MARGIN,(float)screenHeight/2},
+        .width = RACKET_WIDTH,
         .height = 60,
         .velocity = 120.0f,
         .player = PLAYER_2,
@@ -225,8 +229,8 @@ int main(void) {
             DrawCircleV(ball.position, ball.radius, WHITE);
 
             //Racket
-            DrawRectangle((int)racket.position.x, (int)racket.position.y, racket.width,racket.height, WHITE); // Racket 1 (Right)
-            DrawRectangle((int)racket_2.position.x, (int)racket_2.position.y, racket_2.width,racket_2.height, WHITE); // Racket 2 (Left)
+            DrawRectangle((int)racket.position.x, (int)racket.position.y, racket.width, racket.height, WHITE); // Racket 1 (Right)
+            DrawRectangle((int)racket_2.position.x, (int)racket_2.position.y, racket_2.width, racket_2.height, WHITE); // Racket 2 (Left)
 
             //Field
             DrawRectangleLinesEx(field.rec,field.thickness,field.color);
