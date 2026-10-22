@@ -1,3 +1,11 @@
+## [1.3.1](https://github.com/LucasCanete/Pong/compare/v1.3.0...v1.3.1) (2026-10-22)
+
+
+### Bug Fixes
+
+* ball can now bounce against upper and bottom side of the rackets ([167ee06](https://github.com/LucasCanete/Pong/commit/167ee06062d13751f91579aaa9662a9d80fa129b))
+* both rackets have now same distance from field lines ([a767ba4](https://github.com/LucasCanete/Pong/commit/a767ba4d198b1eb655db471affa70d82eed91e7d))
+
 # [1.3.0](https://github.com/LucasCanete/Pong/compare/v1.2.4...v1.3.0) (2026-10-21)
 
 
