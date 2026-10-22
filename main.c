@@ -105,9 +105,11 @@ void detectCollision(Racket *racket, Ball *ball) {
             //Racket on Right side
             bool ball_and_racket_at_same_x = ball->position.x + ball->radius >= racket->position.x && ball->position.x - ball->radius <= racket->position.x + (float)racket->width;
             bool ball_at_height_of_racket = ball->position.y + ball->radius  >= racket->position.y && ball->position.y - ball->radius <= racket->position.y + (float)racket->height;
-
+            if (ball_and_racket_at_same_x && ball_at_height_of_racket && ball->velocity_x < 0){
+                ball->velocity_y *= -1;
+            }
             //only collide if ball is going to the right
-             if (ball_and_racket_at_same_x && ball_at_height_of_racket && ball->velocity_x > 0) {
+             else if (ball_and_racket_at_same_x && ball_at_height_of_racket && ball->velocity_x > 0) {
                 //only modify velocity vector in x
                 ball->velocity_x *= -1;
             }
@@ -117,8 +119,11 @@ void detectCollision(Racket *racket, Ball *ball) {
         case PLAYER_2:
             //Racket on Left side
             bool ball_and_racket_with_same_x = ball->position.x - ball->radius <= racket->position.x + (float)racket->width && ball->position.x + ball->radius >= racket->position.x;
-            bool ball_at_height_of_racket_2 = ball->position.y + ball->radius >= racket->position.y && ball->position.y + ball->radius <= racket->position.y + (float)racket->height;
+            bool ball_at_height_of_racket_2 = ball->position.y + ball->radius >= racket->position.y && ball->position.y - ball->radius <= racket->position.y + (float)racket->height;
 
+            if (ball_and_racket_with_same_x && ball_at_height_of_racket_2 && ball->velocity_x > 0){
+                ball->velocity_y *= -1;
+            }
             // detect collision with racket on left field-side
             if (ball_and_racket_with_same_x && ball_at_height_of_racket_2 && ball->velocity_x < 0) {
                 //only modify velocity vector in x

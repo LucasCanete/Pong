@@ -22,7 +22,7 @@ and to implement semantic releases with every push.
 In the first commit the game is left uncompleted on purpose. With the following pushes, features will be included and i will verify if automatic build
 works accordingly. The next features to be implemented are:
 
-- [ ] Add second player and score view
+- [x] Add second player and score view
 - [ ] Add Sound
 - [ ] Add Menu to configure certain details of the game
 
