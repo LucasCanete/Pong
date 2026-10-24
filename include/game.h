@@ -18,6 +18,17 @@
 #define RACKET_MARGIN (2*FIELD_X)
 #define RACKET_WIDTH 10
 
+typedef enum {
+    MENU,
+    GAMEPLAY
+}GameState;
+
+typedef enum {
+    NEW_GAME,
+    CONFIGURATION,
+    EXIT
+}MenuState;
+
 void game_update_score(Ball *ball,Racket *racket_1, Racket *racket_2 );
 
 #endif

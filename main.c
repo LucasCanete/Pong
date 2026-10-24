@@ -6,164 +6,72 @@
 #include "racket.h"
 
 
-#if 0
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
-
-
-//Padding of x
-#define FIELD_X 10
-
-//Padding of y
-#define FIELD_Y 10
-
-#define RACKET_MARGIN (2*FIELD_X)
-#define RACKET_WIDTH 10
-
-typedef enum {
-    PLAYER_1,
-    PLAYER_2,
-} Player;
-
-
-// ====================================== RACKET =================================================
-typedef struct {
-    Vector2 position;
-    int width;
-    int height;
-    float velocity;
-    Player player;
-    int score;
-} Racket;
-
-void racket_move(Racket *racket) {
-    switch (racket->player) {
-        case PLAYER_1:
-            //Go Down
-            if (IsKeyDown(KEY_DOWN)) {
-                if (racket->position.y + (float)racket->height >= SCREEN_HEIGHT - FIELD_Y) {
-                    racket->position.y = (float)(SCREEN_HEIGHT - FIELD_Y) - (float)racket->height;
-                }
-                else {
-                    racket->position.y += racket->velocity * GetFrameTime();
-                }
-            }
-            //Go Up
-            if (IsKeyDown(KEY_UP)) {
-                if (racket->position.y <= FIELD_Y) {
-                    racket->position.y = FIELD_Y;
-                }
-                else {
-                    racket->position.y -= racket->velocity * GetFrameTime();
-                }
-            }
+void update_menu(MenuState *m_state) {
+    switch (*m_state) {
+        case NEW_GAME:
+            if (IsKeyPressed(KEY_DOWN)) *m_state = CONFIGURATION;
             break;
 
-        case PLAYER_2:
-            //Go Down
-            if (IsKeyDown(KEY_S)) {
-                if (racket->position.y + (float)racket->height >= SCREEN_HEIGHT - FIELD_Y) {
-                    racket->position.y = (float)(SCREEN_HEIGHT - FIELD_Y) - (float)racket->height;
-                }
-                else {
-                    racket->position.y += racket->velocity * GetFrameTime();
-                }
-            }
-            //Go Up
-            if (IsKeyDown(KEY_W)) {
-                if (racket->position.y <= FIELD_Y) {
-                    racket->position.y = FIELD_Y;
-                }
-                else {
-                    racket->position.y -= racket->velocity * GetFrameTime();
-                }
-            }
+        case CONFIGURATION:
+            if (IsKeyPressed(KEY_UP)) *m_state = NEW_GAME;
+            else if (IsKeyPressed(KEY_DOWN)) *m_state = EXIT;
             break;
+
+        case EXIT:
+            if (IsKeyPressed(KEY_UP)) *m_state = CONFIGURATION;
+            //else if (IsKeyPressed(KEY_ENTER)) return 0;
+            break;
+
     }
 
 }
 
-// ==================================== BALL ========================================================
+void draw_menu(MenuState m_state) {
+    Color new_game_selected = m_state == NEW_GAME? RED : WHITE;
+    Color configurations_selected = m_state == CONFIGURATION ? RED : WHITE;
+    Color exit_selected = m_state == EXIT ? RED : WHITE;
 
-typedef struct {
-    Vector2 position;
-    float radius;
-    float velocity_x;
-    float velocity_y;
-} Ball;
 
-void ball_updatePosition(Ball *ball) {
-    ball->position.x += ball->velocity_x * GetFrameTime();
-    ball->position.y += ball->velocity_y * GetFrameTime();
-
-    //changes on x position when colliding with wall
-    if (ball->position.x - ball->radius <= FIELD_X || ball->position.x + ball->radius >= SCREEN_WIDTH - FIELD_X  ) {
-        ball->velocity_x *= -1;
-    }
-    //changes on y position when colliding with wall
-    if (ball->position.y - ball->radius <= FIELD_Y || ball->position.y + ball->radius >= SCREEN_HEIGHT - FIELD_Y ) {
-        ball->velocity_y *= -1;
-    }
-
+    BeginDrawing();
+        ClearBackground(BLACK);
+        DrawText("MENU", 2*SCREEN_WIDTH/5, SCREEN_HEIGHT/6, 50, WHITE);
+        DrawText("New Game", 2*SCREEN_WIDTH/5, 2*SCREEN_HEIGHT/6, 30, new_game_selected);
+        DrawText("Configurations", 2*SCREEN_WIDTH/5, 3*SCREEN_HEIGHT/6, 30, configurations_selected);
+        DrawText("Exit", 2*SCREEN_WIDTH/5, 4*SCREEN_HEIGHT/6, 30, exit_selected);
+    EndDrawing();
 }
-// ==================================== Collision with Rackets ========================================================
+void draw_game(Field field, Ball ball, Racket racket_1, Racket racket_2) {
+    BeginDrawing();
+        ClearBackground(BLACK);
 
-//Bug: When ball collides with upper or lower horizontal part of the racket then it either slides up or down lagging several times
-void racket_detect_collision(Racket *racket, Ball *ball) {
-    switch (racket->player) {
-        case PLAYER_1:
-            //Racket on Right side
-            bool ball_and_racket_at_same_x = ball->position.x + ball->radius >= racket->position.x && ball->position.x - ball->radius <= racket->position.x + (float)racket->width;
-            bool ball_at_height_of_racket = ball->position.y + ball->radius  >= racket->position.y && ball->position.y - ball->radius <= racket->position.y + (float)racket->height;
-            if (ball_and_racket_at_same_x && ball_at_height_of_racket && ball->velocity_x < 0){
-                ball->velocity_y *= -1;
-            }
-            //only collide if ball is going to the right
-             else if (ball_and_racket_at_same_x && ball_at_height_of_racket && ball->velocity_x > 0) {
-                //only modify velocity vector in x
-                ball->velocity_x *= -1;
-            }
+        //Ball
+        DrawCircleV(ball.position, ball.radius, WHITE);
 
-            break;
+        //Racket
+        DrawRectangle((int)racket_1.position.x, (int)racket_1.position.y, racket_1.width, racket_1.height, WHITE); // Racket 1 (Right)
+        DrawRectangle((int)racket_2.position.x, (int)racket_2.position.y, racket_2.width, racket_2.height, WHITE); // Racket 2 (Left)
 
-        case PLAYER_2:
-            //Racket on Left side
-            bool ball_and_racket_with_same_x = ball->position.x - ball->radius <= racket->position.x + (float)racket->width && ball->position.x + ball->radius >= racket->position.x;
-            bool ball_at_height_of_racket_2 = ball->position.y + ball->radius >= racket->position.y && ball->position.y - ball->radius <= racket->position.y + (float)racket->height;
+        //Field
+        DrawRectangleLinesEx(field.rec,field.thickness,field.color);
+        DrawLine(SCREEN_WIDTH/2,FIELD_Y,SCREEN_WIDTH/2,SCREEN_HEIGHT - FIELD_Y,WHITE);
 
-            if (ball_and_racket_with_same_x && ball_at_height_of_racket_2 && ball->velocity_x > 0){
-                ball->velocity_y *= -1;
-            }
-            // detect collision with racket on left field-side
-            else if (ball_and_racket_with_same_x && ball_at_height_of_racket_2 && ball->velocity_x < 0) {
-                //only modify velocity vector in x
-                ball->velocity_x *= -1;
-            }
+        // Score
+        DrawText(TextFormat("%02i", racket_1.score), 3*(SCREEN_WIDTH/4), 5*FIELD_Y, 50, WHITE); //player 1
+        DrawText(TextFormat("%02i", racket_2.score), (SCREEN_WIDTH/4), 5*FIELD_Y, 50, WHITE); //player 2
 
-            break;
-    }
-
-
+    EndDrawing();
 }
+void update_game(Ball *ball ,Racket *racket_1, Racket *racket_2) {
+    racket_move(racket_1);
+    racket_move(racket_2);
 
-// =================================== FIELD ========================================================
-typedef struct {
-    Rectangle rec;
-    float thickness;
-    Color color;
-} Field;
+    ball_updatePosition(ball);
 
-// =================================== SCORE ========================================================
+    racket_detect_collision(racket_1, ball);
+    racket_detect_collision(racket_2, ball);
 
-void game_update_score(Ball *ball,Racket *racket_1, Racket *racket_2 ) {
-    //Ball reaches left side of the field
-    bool ball_touched_left_court = ball->position.x - ball->radius <= FIELD_X;
-    bool ball_touched_right_court = ball->position.x + ball->radius >= SCREEN_WIDTH - FIELD_X;
-    if (ball_touched_left_court) racket_1->score++;
-    else if (ball_touched_right_court) racket_2->score++;
+    game_update_score(ball, racket_1, racket_2);
 }
-#endif
-
 
 int main(void) {
     const int screenWidth = 800;
@@ -186,7 +94,7 @@ int main(void) {
     };
 
     // ------------- define rackets ------------------
-    Racket racket = {
+    Racket racket_1 = {
         .position = {(float)screenWidth - RACKET_MARGIN - RACKET_WIDTH, (float)screenHeight/2},
         .width = RACKET_WIDTH,
         .height = 60,
@@ -213,42 +121,65 @@ int main(void) {
         .velocity_y = 120.0f,
     };
 
-
+    GameState gameState = MENU;
+    MenuState menuState = NEW_GAME;
 
     while (!WindowShouldClose()) {
-        //Update game
-        racket_move(&racket);
-        racket_move(&racket_2);
+        // =================================== Update Logic =======================================
+        switch (gameState) {
 
-        ball_updatePosition(&ball);
+            case MENU:
+                update_menu(&menuState);
 
-        racket_detect_collision(&racket, &ball);
-        racket_detect_collision(&racket_2, &ball);
+                if (IsKeyPressed(KEY_SPACE)) {
+                    TraceLog(LOG_INFO, "Cambiando a GAMEPLAY");
+                    gameState = GAMEPLAY;
+                }
+                else if (IsKeyPressed(KEY_ENTER) && menuState == NEW_GAME) {
+                    //reset game values
+                    racket_1.score = 0;
+                    racket_2.score = 0;
 
-        game_update_score(&ball, &racket, &racket_2);
+                    ball.position.x = (float)screenWidth/2;
+                    ball.position.y = (float)screenHeight/2;
+
+                    gameState = GAMEPLAY;
+
+                }
+                else if (IsKeyPressed(KEY_ENTER) && menuState == EXIT) {
+                        return 0;
+                }
+
+                break;
+
+            case GAMEPLAY:
+                update_game(&ball, &racket_1, &racket_2);
+                if (IsKeyPressed(KEY_SPACE)) {
+                    TraceLog(LOG_INFO, "Cambiando a MENU");
+                    gameState = MENU;
+                }
+                if (racket_1.score == 11 || racket_2.score == 11) {
+                    gameState = MENU;
+                }
+
+                break;
+        }
 
 
-        //Update Drawings
-        BeginDrawing();
-            ClearBackground(BLACK);
+        // =================================== Drawing Logic =======================================
 
+        switch (gameState) {
+            case MENU:
+                draw_menu(menuState);
+                break;
 
-            //Ball
-            DrawCircleV(ball.position, ball.radius, WHITE);
+            case GAMEPLAY:
+                draw_game(field, ball, racket_1, racket_2);
+                break;
+        }
 
-            //Racket
-            DrawRectangle((int)racket.position.x, (int)racket.position.y, racket.width, racket.height, WHITE); // Racket 1 (Right)
-            DrawRectangle((int)racket_2.position.x, (int)racket_2.position.y, racket_2.width, racket_2.height, WHITE); // Racket 2 (Left)
-
-            //Field
-            DrawRectangleLinesEx(field.rec,field.thickness,field.color);
-            DrawLine(screenWidth/2,FIELD_Y,screenWidth/2,screenHeight - FIELD_Y,WHITE);
-
-            // Score
-            DrawText(TextFormat("%02i", racket.score), 3*(screenWidth/4), 5*FIELD_Y, 50, WHITE); //player 1
-            DrawText(TextFormat("%02i", racket_2.score), (screenWidth/4), 5*FIELD_Y, 50, WHITE); //player 2
-
-        EndDrawing();
     }
     return 0;
 }
+
+
