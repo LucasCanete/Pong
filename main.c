@@ -8,8 +8,13 @@
 
 void update_menu(MenuState *m_state) {
     switch (*m_state) {
+        case RESUME_GAME:
+            if (IsKeyPressed(KEY_DOWN)) *m_state = NEW_GAME;
+            break;
+
         case NEW_GAME:
-            if (IsKeyPressed(KEY_DOWN)) *m_state = CONFIGURATION;
+            if (IsKeyPressed(KEY_UP)) *m_state = RESUME_GAME;
+            else if (IsKeyPressed(KEY_DOWN)) *m_state = CONFIGURATION;
             break;
 
         case CONFIGURATION:
@@ -26,19 +31,35 @@ void update_menu(MenuState *m_state) {
 
 }
 
-void draw_menu(MenuState m_state) {
+void draw_menu(GameState g_state, MenuState m_state) {
     Color new_game_selected = m_state == NEW_GAME? RED : WHITE;
+    Color resume_game_selected = m_state == RESUME_GAME? RED : WHITE;
     Color configurations_selected = m_state == CONFIGURATION ? RED : WHITE;
     Color exit_selected = m_state == EXIT ? RED : WHITE;
 
+    //shows two kinds of menus according if game has been paused or it is a new game
+    switch (g_state) {
+        case MENU:
+            BeginDrawing();
+                ClearBackground(BLACK);
+                DrawText("MENU", 2*SCREEN_WIDTH/5, SCREEN_HEIGHT/6, 50, WHITE);
+                DrawText("New Game", 2*SCREEN_WIDTH/5, 2*SCREEN_HEIGHT/6, 30, new_game_selected);
+                DrawText("Configurations", 2*SCREEN_WIDTH/5, 3*SCREEN_HEIGHT/6, 30, configurations_selected);
+                DrawText("Exit", 2*SCREEN_WIDTH/5, 4*SCREEN_HEIGHT/6, 30, exit_selected);
+            EndDrawing();
+            break;
+        case PAUSE:
+            BeginDrawing();
+                ClearBackground(BLACK);
+                DrawText("MENU", 2*SCREEN_WIDTH/5, SCREEN_HEIGHT/6, 50, WHITE);
+                DrawText("Resume Game", 2*SCREEN_WIDTH/5, 2*SCREEN_HEIGHT/6, 30, resume_game_selected);
+                DrawText("New Game", 2*SCREEN_WIDTH/5, 3*SCREEN_HEIGHT/6, 30, new_game_selected);
+                DrawText("Configurations", 2*SCREEN_WIDTH/5, 4*SCREEN_HEIGHT/6, 30, configurations_selected);
+                DrawText("Exit", 2*SCREEN_WIDTH/5, 5*SCREEN_HEIGHT/6, 30, exit_selected);
+            EndDrawing();
+            break;
+    }
 
-    BeginDrawing();
-        ClearBackground(BLACK);
-        DrawText("MENU", 2*SCREEN_WIDTH/5, SCREEN_HEIGHT/6, 50, WHITE);
-        DrawText("New Game", 2*SCREEN_WIDTH/5, 2*SCREEN_HEIGHT/6, 30, new_game_selected);
-        DrawText("Configurations", 2*SCREEN_WIDTH/5, 3*SCREEN_HEIGHT/6, 30, configurations_selected);
-        DrawText("Exit", 2*SCREEN_WIDTH/5, 4*SCREEN_HEIGHT/6, 30, exit_selected);
-    EndDrawing();
 }
 void draw_game(Field field, Ball ball, Racket racket_1, Racket racket_2) {
     BeginDrawing();
@@ -71,6 +92,14 @@ void update_game(Ball *ball ,Racket *racket_1, Racket *racket_2) {
     racket_detect_collision(racket_2, ball);
 
     game_update_score(ball, racket_1, racket_2);
+}
+
+void reset_game_values (Ball *ball, Racket *racket_1, Racket *racket_2) {
+    racket_1->score = 0;
+    racket_2->score = 0;
+
+    ball->position.x = (float)SCREEN_WIDTH/2;
+    ball->position.y = (float)SCREEN_HEIGHT/2;
 }
 
 int main(void) {
@@ -131,20 +160,15 @@ int main(void) {
             case MENU:
                 update_menu(&menuState);
 
-                if (IsKeyPressed(KEY_SPACE)) {
-                    TraceLog(LOG_INFO, "Cambiando a GAMEPLAY");
-                    gameState = GAMEPLAY;
-                }
-                else if (IsKeyPressed(KEY_ENTER) && menuState == NEW_GAME) {
+                if (IsKeyPressed(KEY_ENTER) && menuState == NEW_GAME) {
                     //reset game values
-                    racket_1.score = 0;
-                    racket_2.score = 0;
-
-                    ball.position.x = (float)screenWidth/2;
-                    ball.position.y = (float)screenHeight/2;
+                    reset_game_values(&ball, &racket_1, &racket_2);
 
                     gameState = GAMEPLAY;
 
+                }
+                else if (IsKeyPressed(KEY_ENTER) && menuState == CONFIGURATION) {
+                    //CONFIGURE SOMETHING
                 }
                 else if (IsKeyPressed(KEY_ENTER) && menuState == EXIT) {
                         return 0;
@@ -156,10 +180,32 @@ int main(void) {
                 update_game(&ball, &racket_1, &racket_2);
                 if (IsKeyPressed(KEY_SPACE)) {
                     TraceLog(LOG_INFO, "Cambiando a MENU");
-                    gameState = MENU;
+                    gameState = PAUSE;
+                    menuState = RESUME_GAME;
                 }
                 if (racket_1.score == 11 || racket_2.score == 11) {
                     gameState = MENU;
+                }
+
+                break;
+            case PAUSE:
+                update_menu(&menuState);
+                if ( (IsKeyPressed(KEY_ENTER) && menuState == RESUME_GAME)) {
+                    TraceLog(LOG_INFO, "Cambiando a GAMEPLAY");
+                    gameState = GAMEPLAY;
+                }
+                else if (IsKeyPressed(KEY_ENTER) && menuState == NEW_GAME) {
+                    //reset game values
+                    reset_game_values(&ball, &racket_1, &racket_2);
+
+                    gameState = GAMEPLAY;
+
+                }
+                else if (IsKeyPressed(KEY_ENTER) && menuState == CONFIGURATION) {
+                    //CONFIGURE SOMETHING
+                }
+                else if (IsKeyPressed(KEY_ENTER) && menuState == EXIT) {
+                    return 0;
                 }
 
                 break;
@@ -170,11 +216,15 @@ int main(void) {
 
         switch (gameState) {
             case MENU:
-                draw_menu(menuState);
+                draw_menu(gameState,menuState);
                 break;
 
             case GAMEPLAY:
                 draw_game(field, ball, racket_1, racket_2);
+                break;
+
+            case PAUSE:
+                draw_menu(gameState,menuState);
                 break;
         }
 

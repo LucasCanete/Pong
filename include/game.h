@@ -20,11 +20,13 @@
 
 typedef enum {
     MENU,
-    GAMEPLAY
+    GAMEPLAY,
+    PAUSE
 }GameState;
 
 typedef enum {
     NEW_GAME,
+    RESUME_GAME,
     CONFIGURATION,
     EXIT
 }MenuState;
