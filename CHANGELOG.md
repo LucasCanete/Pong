@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/LucasCanete/Pong/compare/v1.3.1...v1.4.0) (2026-10-24)
+
+
+### Features
+
+* rudimentary implementation of a menu ([e0f271f](https://github.com/LucasCanete/Pong/commit/e0f271f942dfe476a320ae59e345cc6b745eb538))
+
 ## [1.3.1](https://github.com/LucasCanete/Pong/compare/v1.3.0...v1.3.1) (2026-10-22)
 
 
