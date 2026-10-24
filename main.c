@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <raylib.h>
+#include "game.h"
+#include "field.h"
+#include "ball.h"
+#include "racket.h"
 
+
+#if 0
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
 
@@ -30,7 +36,7 @@ typedef struct {
     int score;
 } Racket;
 
-void moveRacket(Racket *racket) {
+void racket_move(Racket *racket) {
     switch (racket->player) {
         case PLAYER_1:
             //Go Down
@@ -86,7 +92,7 @@ typedef struct {
     float velocity_y;
 } Ball;
 
-void updateBall(Ball *ball) {
+void ball_updatePosition(Ball *ball) {
     ball->position.x += ball->velocity_x * GetFrameTime();
     ball->position.y += ball->velocity_y * GetFrameTime();
 
@@ -103,7 +109,7 @@ void updateBall(Ball *ball) {
 // ==================================== Collision with Rackets ========================================================
 
 //Bug: When ball collides with upper or lower horizontal part of the racket then it either slides up or down lagging several times
-void detectCollision(Racket *racket, Ball *ball) {
+void racket_detect_collision(Racket *racket, Ball *ball) {
     switch (racket->player) {
         case PLAYER_1:
             //Racket on Right side
@@ -149,13 +155,15 @@ typedef struct {
 
 // =================================== SCORE ========================================================
 
-void updateScore(Ball *ball,Racket *racket_1, Racket *racket_2 ) {
+void game_update_score(Ball *ball,Racket *racket_1, Racket *racket_2 ) {
     //Ball reaches left side of the field
     bool ball_touched_left_court = ball->position.x - ball->radius <= FIELD_X;
     bool ball_touched_right_court = ball->position.x + ball->radius >= SCREEN_WIDTH - FIELD_X;
     if (ball_touched_left_court) racket_1->score++;
     else if (ball_touched_right_court) racket_2->score++;
 }
+#endif
+
 
 int main(void) {
     const int screenWidth = 800;
@@ -209,15 +217,15 @@ int main(void) {
 
     while (!WindowShouldClose()) {
         //Update game
-        moveRacket(&racket);
-        moveRacket(&racket_2);
+        racket_move(&racket);
+        racket_move(&racket_2);
 
-        updateBall(&ball);
+        ball_updatePosition(&ball);
 
-        detectCollision(&racket, &ball);
-        detectCollision(&racket_2, &ball);
+        racket_detect_collision(&racket, &ball);
+        racket_detect_collision(&racket_2, &ball);
 
-        updateScore(&ball, &racket, &racket_2);
+        game_update_score(&ball, &racket, &racket_2);
 
 
         //Update Drawings

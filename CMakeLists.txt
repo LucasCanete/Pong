@@ -18,5 +18,13 @@ if(NOT raylib_FOUND)
     FetchContent_MakeAvailable(raylib)
 endif()
 
-add_executable(pong main.c)
+add_executable(pong
+        main.c
+        src/racket.c
+        src/ball.c
+        src/field.c
+        src/game.c
+)
+
+target_include_directories(pong PRIVATE include)
 target_link_libraries(pong PRIVATE raylib)
