@@ -86,5 +86,8 @@ void racket_detect_collision(Racket *racket, Ball *ball) {
             break;
     }
 
-
 }
+
+void racket_adjust_velocity(Racket *racket, float new_velocity) {
+    racket->velocity = new_velocity;
+};

@@ -18,18 +18,31 @@
 #define RACKET_MARGIN (2*FIELD_X)
 #define RACKET_WIDTH 10
 
+// Game only has three states.
+// Menu: When window first opens
+// Gameplay: when playing the game
+// Pause:  when game has been pause (same as menu but with option to resume game)
 typedef enum {
     MENU,
     GAMEPLAY,
-    PAUSE
+    PAUSE,
+    CONFIG,
 }GameState;
 
+// All options shown in the Menu
+//Rename MenuOptions???
 typedef enum {
     NEW_GAME,
-    RESUME_GAME,
+    RESUME_GAME, //Only shown when GameState is Pause
     CONFIGURATION,
     EXIT
 }MenuState;
+
+typedef enum {
+    CONFIG_LEVEL_1,
+    CONFIG_LEVEL_2,
+    CONFIG_LEVEL_3,
+}ConfigOption;
 
 void game_update_score(Ball *ball,Racket *racket_1, Racket *racket_2 );
 
