@@ -1,3 +1,15 @@
+# [1.5.0](https://github.com/LucasCanete/Pong/compare/v1.4.0...v1.5.0) (2026-10-25)
+
+
+### Bug Fixes
+
+* menu is now shown differently if game is paused or game is new ([26c2b8d](https://github.com/LucasCanete/Pong/commit/26c2b8d8ad7d736186ff2d157b99e98c9a48be52))
+
+
+### Features
+
+* configure is able to modify ball and racket velocities ([812740a](https://github.com/LucasCanete/Pong/commit/812740a6f4b9c88f0c4fd40f59e4b84e67312254))
+
 # [1.4.0](https://github.com/LucasCanete/Pong/compare/v1.3.1...v1.4.0) (2026-10-24)
 
 
