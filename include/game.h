@@ -3,6 +3,7 @@
 
 #include "ball.h"
 #include "racket.h"
+#include "field.h"
 
 
 #define SCREEN_WIDTH 800
@@ -44,6 +45,30 @@ typedef enum {
     CONFIG_LEVEL_3,
 }ConfigOption;
 
+
+// resets all positions and scores
+void game_reset_game_values (Ball *ball, Racket *racket_1, Racket *racket_2);
+
+//Updates the score of all players
 void game_update_score(Ball *ball,Racket *racket_1, Racket *racket_2 );
 
+//when selecting a new level updates the velocities at which everything moves
+void game_update_velocities(ConfigOption level,Ball *ball,Racket *racket_1, Racket *racket_2);
+
+//updates the level of the game
+void game_update_level(ConfigOption *level);
+
+//updates the moving of rackets and ball
+void game_update_game(Ball *ball ,Racket *racket_1, Racket *racket_2);
+
+//Menu update with different behaviour if gamestate is menu or pause
+void game_update_menu(GameState g_state,MenuState *m_state);
+
+//draws the menu of the game
+void game_draw_menu(GameState g_state, MenuState m_state);
+
+//Draws the configuration window (to select the game level)
+void game_draw_config(ConfigOption level);
+
+void game_draw_game(Field field,Ball ball,Racket racket_1,Racket racket_2);
 #endif
