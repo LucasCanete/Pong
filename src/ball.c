@@ -3,6 +3,14 @@
 #include "ball.h"
 #include "game.h"
 
+
+void ball_init(Ball *ball) {
+    ball->position.x = (float)SCREEN_WIDTH/2;
+    ball->position.y = (float)SCREEN_HEIGHT/2;
+    ball->radius = 10.0f;
+    ball->velocity_x = 120.0f;
+    ball->velocity_y = 120.0f;
+}
 void ball_updatePosition(Ball *ball) {
     ball->position.x += ball->velocity_x * GetFrameTime();
     ball->position.y += ball->velocity_y * GetFrameTime();

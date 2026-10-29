@@ -26,32 +26,18 @@ int main(void) {
     };
 
     // ------------- define rackets ------------------
-    Racket racket_1 = {
-        .position = {(float)screenWidth - RACKET_MARGIN - RACKET_WIDTH, (float)screenHeight/2},
-        .width = RACKET_WIDTH,
-        .height = 60,
-        .velocity = 120.0f,
-        .player = PLAYER_1,
-        .score = 0
-    };
+    Racket racket_1 = {};
 
-    Racket racket_2 = {
-        .position = {RACKET_MARGIN,(float)screenHeight/2},
-        .width = RACKET_WIDTH,
-        .height = 60,
-        .velocity = 120.0f,
-        .player = PLAYER_2,
-        .score = 0
-    };
+    Racket racket_2 = {};
+
+    racket_init(&racket_1, PLAYER_1);
+
+    racket_init(&racket_2, PLAYER_2);
 
     // ------------- define ball ----------------------
 
-    Ball ball = {
-        .position = {(float)screenWidth/2, (float)screenHeight/2},
-        .radius = 10.0f,
-        .velocity_x = 120.0f,
-        .velocity_y = 120.0f,
-    };
+    Ball ball = {};
+    ball_init(&ball);
 
     GameState gameState = MENU;
     GameState previousGameState = MENU;

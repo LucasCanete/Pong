@@ -4,6 +4,29 @@
 #include "ball.h"
 #include "game.h"
 
+
+void racket_init(Racket *racket, const Player player) {
+    racket->width = RACKET_WIDTH;
+    racket->height = RACKET_HEIGHT;
+    racket->velocity = 120.0f;
+    racket->score = 0;
+
+    switch (player) {
+        case PLAYER_1:
+            racket->player = PLAYER_1;
+            racket->position.x = (float)SCREEN_WIDTH - RACKET_MARGIN - RACKET_WIDTH;
+            racket->position.y = (float)SCREEN_HEIGHT/2;
+            break;
+
+        case PLAYER_2:
+            racket->player = PLAYER_2;
+            racket->position.x = RACKET_MARGIN;
+            racket->position.y = (float)SCREEN_HEIGHT/2;
+            break;
+    }
+}
+
+
 void racket_move(Racket *racket) {
     switch (racket->player) {
         case PLAYER_1:
@@ -88,6 +111,3 @@ void racket_detect_collision(Racket *racket, Ball *ball) {
 
 }
 
-void racket_adjust_velocity(Racket *racket, float new_velocity) {
-    racket->velocity = new_velocity;
-};

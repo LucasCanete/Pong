@@ -18,6 +18,7 @@
 
 #define RACKET_MARGIN (2*FIELD_X)
 #define RACKET_WIDTH 10
+#define RACKET_HEIGHT 60
 
 // Game only has three states.
 // Menu: When window first opens

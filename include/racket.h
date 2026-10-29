@@ -20,12 +20,16 @@ typedef struct {
 } Racket;
 
 
+
+void racket_init(Racket *racket, Player player);
+
+
 void racket_move(Racket *racket);
 
-//Bug: When ball collides with upper or lower horizontal part of the racket then it either slides up or down lagging several times
+
 void racket_detect_collision(Racket *racket, Ball *ball);
 
-void racket_adjust_velocity(Racket *racket, float new_velocity);
+
 
 
 

@@ -9,6 +9,8 @@ typedef struct {
     float velocity_y;
 } Ball;
 
+void ball_init(Ball *ball);
+
 void ball_updatePosition(Ball *ball);
 
 
