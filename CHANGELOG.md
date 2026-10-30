@@ -1,3 +1,15 @@
+# [1.6.0](https://github.com/LucasCanete/Pong/compare/v1.5.0...v1.6.0) (2026-10-30)
+
+
+### Bug Fixes
+
+* created init functions ([cd1a2cd](https://github.com/LucasCanete/Pong/commit/cd1a2cd143561f3e918f03d2ce6e2666a3147467))
+
+
+### Features
+
+* added sound effects ([e0496ce](https://github.com/LucasCanete/Pong/commit/e0496ce513ec8d5d959906bfc3267c95cd48f18c))
+
 # [1.5.0](https://github.com/LucasCanete/Pong/compare/v1.4.0...v1.5.0) (2026-10-25)
 
 
