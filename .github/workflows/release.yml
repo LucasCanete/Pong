@@ -40,12 +40,15 @@ jobs:
           - os: ubuntu-22.04
             artifact: pong-linux-x86_64
             binary: build/pong
+            ext: ""
           - os: macos-latest
             artifact: pong-macos-arm64
             binary: build/pong
+            ext: ""
           - os: windows-latest
             artifact: pong-windows-x86_64.exe
             binary: build/Release/pong.exe
+            ext: ".exe"
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
