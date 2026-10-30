@@ -67,40 +67,41 @@ void game_update_velocities(const ConfigOption level,Ball *ball,Racket *racket_1
 
     }
 }
-
+extern Sound selectSound;
 void game_update_level(ConfigOption *level) {
     switch (*level) {
         case CONFIG_LEVEL_1:
-            if (IsKeyPressed(KEY_RIGHT)) *level = CONFIG_LEVEL_2;
+            if (IsKeyPressed(KEY_RIGHT)){ *level = CONFIG_LEVEL_2; PlaySound(selectSound);}
 
             break;
 
         case CONFIG_LEVEL_2:
-            if (IsKeyPressed(KEY_RIGHT)) *level = CONFIG_LEVEL_3;
-            else if (IsKeyPressed(KEY_LEFT)) *level = CONFIG_LEVEL_1;
+            if (IsKeyPressed(KEY_RIGHT)){ *level = CONFIG_LEVEL_3; PlaySound(selectSound);}
+            else if (IsKeyPressed(KEY_LEFT)){ *level = CONFIG_LEVEL_1; PlaySound(selectSound);}
             break;
 
         case CONFIG_LEVEL_3:
-            if (IsKeyPressed(KEY_LEFT)) *level = CONFIG_LEVEL_2;
+            if (IsKeyPressed(KEY_LEFT)){ *level = CONFIG_LEVEL_2; PlaySound(selectSound);}
             break;
     }
 }
+
 
 void game_update_menu(const GameState g_state,MenuState *m_state) {
     if (g_state == MENU) {
         switch (*m_state) {
 
             case NEW_GAME:
-                if (IsKeyPressed(KEY_DOWN)) *m_state = CONFIGURATION;
+                if (IsKeyPressed(KEY_DOWN)){ *m_state = CONFIGURATION; PlaySound(selectSound);}
                 break;
 
             case CONFIGURATION:
-                if (IsKeyPressed(KEY_UP)) *m_state = NEW_GAME;
-                else if (IsKeyPressed(KEY_DOWN)) *m_state = EXIT;
+                if (IsKeyPressed(KEY_UP)){ *m_state = NEW_GAME; PlaySound(selectSound);}
+                else if (IsKeyPressed(KEY_DOWN)){ *m_state = EXIT; PlaySound(selectSound);}
                 break;
 
             case EXIT:
-                if (IsKeyPressed(KEY_UP)) *m_state = CONFIGURATION;
+                if (IsKeyPressed(KEY_UP)){ *m_state = CONFIGURATION; PlaySound(selectSound);}
                 //else if (IsKeyPressed(KEY_ENTER)) return 0;
                 break;
 
@@ -110,21 +111,21 @@ void game_update_menu(const GameState g_state,MenuState *m_state) {
     else if (g_state == PAUSE) {
         switch (*m_state) {
             case RESUME_GAME:
-                if (IsKeyPressed(KEY_DOWN)) *m_state = NEW_GAME;
+                if (IsKeyPressed(KEY_DOWN)){ *m_state = NEW_GAME; PlaySound(selectSound);}
                 break;
 
             case NEW_GAME:
-                if (IsKeyPressed(KEY_UP)) *m_state = RESUME_GAME;
-                else if (IsKeyPressed(KEY_DOWN)) *m_state = CONFIGURATION;
+                if (IsKeyPressed(KEY_UP)){ *m_state = RESUME_GAME; PlaySound(selectSound);}
+                else if (IsKeyPressed(KEY_DOWN)){ *m_state = CONFIGURATION; PlaySound(selectSound);}
                 break;
 
             case CONFIGURATION:
-                if (IsKeyPressed(KEY_UP)) *m_state = NEW_GAME;
-                else if (IsKeyPressed(KEY_DOWN)) *m_state = EXIT;
+                if (IsKeyPressed(KEY_UP)){ *m_state = NEW_GAME; PlaySound(selectSound);}
+                else if (IsKeyPressed(KEY_DOWN)){ *m_state = EXIT; PlaySound(selectSound);}
                 break;
 
             case EXIT:
-                if (IsKeyPressed(KEY_UP)) *m_state = CONFIGURATION;
+                if (IsKeyPressed(KEY_UP)){ *m_state = CONFIGURATION; PlaySound(selectSound);}
                 //else if (IsKeyPressed(KEY_ENTER)) return 0;
                 break;
 

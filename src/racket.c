@@ -73,7 +73,7 @@ void racket_move(Racket *racket) {
     }
 }
 
-
+extern Sound hitSound;
 //Bug: When ball collides with upper or lower horizontal part of the racket then it either slides up or down lagging several times
 void racket_detect_collision(Racket *racket, Ball *ball) {
     switch (racket->player) {
@@ -83,11 +83,13 @@ void racket_detect_collision(Racket *racket, Ball *ball) {
             bool ball_at_height_of_racket = ball->position.y + ball->radius  >= racket->position.y && ball->position.y - ball->radius <= racket->position.y + (float)racket->height;
             if (ball_and_racket_at_same_x && ball_at_height_of_racket && ball->velocity_x < 0){
                 ball->velocity_y *= -1;
+                PlaySound(hitSound);
             }
             //only collide if ball is going to the right
             else if (ball_and_racket_at_same_x && ball_at_height_of_racket && ball->velocity_x > 0) {
                 //only modify velocity vector in x
                 ball->velocity_x *= -1;
+                PlaySound(hitSound);
             }
 
             break;
@@ -99,11 +101,13 @@ void racket_detect_collision(Racket *racket, Ball *ball) {
 
             if (ball_and_racket_with_same_x && ball_at_height_of_racket_2 && ball->velocity_x > 0){
                 ball->velocity_y *= -1;
+                PlaySound(hitSound);
             }
             // detect collision with racket on left field-side
             else if (ball_and_racket_with_same_x && ball_at_height_of_racket_2 && ball->velocity_x < 0) {
                 //only modify velocity vector in x
                 ball->velocity_x *= -1;
+                PlaySound(hitSound);
             }
 
             break;

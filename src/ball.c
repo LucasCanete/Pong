@@ -11,6 +11,7 @@ void ball_init(Ball *ball) {
     ball->velocity_x = 120.0f;
     ball->velocity_y = 120.0f;
 }
+extern Sound missedBallSound;
 void ball_updatePosition(Ball *ball) {
     ball->position.x += ball->velocity_x * GetFrameTime();
     ball->position.y += ball->velocity_y * GetFrameTime();
@@ -18,6 +19,7 @@ void ball_updatePosition(Ball *ball) {
     //changes on x position when colliding with wall
     if (ball->position.x - ball->radius <= FIELD_X || ball->position.x + ball->radius >= SCREEN_WIDTH - FIELD_X  ) {
         ball->velocity_x *= -1;
+        PlaySound(missedBallSound);
     }
     //changes on y position when colliding with wall
     if (ball->position.y - ball->radius <= FIELD_Y || ball->position.y + ball->radius >= SCREEN_HEIGHT - FIELD_Y ) {

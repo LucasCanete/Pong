@@ -5,12 +5,21 @@
 #include "ball.h"
 #include "racket.h"
 
+Sound hitSound;
+Sound selectSound;
+Sound missedBallSound;
+
 int main(void) {
     const int screenWidth = 800;
     const int screenHeight = 600;
 
     InitWindow(screenWidth, screenHeight, "Pong");
     SetTargetFPS(60);
+
+    InitAudioDevice();
+    hitSound = LoadSound("../assets/hit.mp3");
+    selectSound = LoadSound("../assets/select.mp3");
+    missedBallSound = LoadSound("../assets/quack.mp3");
 
 
     // ------------ define field --------------------
@@ -153,6 +162,10 @@ int main(void) {
         }
 
     }
+    UnloadSound(hitSound);
+    UnloadSound(selectSound);
+    CloseAudioDevice();
+    CloseWindow();
     return 0;
 }
 
