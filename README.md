@@ -24,7 +24,7 @@ works accordingly. The next features to be implemented are:
 
 - [x] Add second player and score view
 - [ ] Add Sound
-- [ ] Add Menu to configure certain details of the game
+- [x] Add Menu to configure certain details of the game
 
 
 

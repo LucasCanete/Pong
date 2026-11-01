@@ -5,6 +5,11 @@
 #include "ball.h"
 #include "racket.h"
 
+#include "src/hit_mp3.h"
+#include "src/select_mp3.h"
+#include "src/quack_mp3.h"
+
+
 Sound hitSound;
 Sound selectSound;
 Sound missedBallSound;
@@ -17,9 +22,16 @@ int main(void) {
     SetTargetFPS(60);
 
     InitAudioDevice();
-    hitSound = LoadSound("../assets/hit.mp3");
-    selectSound = LoadSound("../assets/select.mp3");
-    missedBallSound = LoadSound("../assets/quack.mp3");
+
+    Wave s = LoadWaveFromMemory(".mp3", assets_select_mp3, assets_select_mp3_len);
+    Wave q = LoadWaveFromMemory(".mp3", assets_quack_mp3, assets_quack_mp3_len);
+    Wave h = LoadWaveFromMemory(".mp3", assets_hit_mp3, assets_hit_mp3_len);
+
+    selectSound = LoadSoundFromWave(s); //LoadSound("../assets/select.mp3");
+    hitSound = LoadSoundFromWave(h); //LoadSound("../assets/hit.mp3");
+    missedBallSound = LoadSoundFromWave(q);
+    //selectSound = LoadSound("../assets/select.mp3");
+    //missedBallSound = LoadSound("../assets/quack.mp3");
 
 
     // ------------ define field --------------------
@@ -162,11 +174,11 @@ int main(void) {
         }
 
     }
-    UnloadSound(hitSound);
-    UnloadSound(selectSound);
+    UnloadWave(s);
+    UnloadWave(q);
+    UnloadWave(h);//UnloadSound(hitSound);
+    //UnloadSound(selectSound);
     CloseAudioDevice();
     CloseWindow();
     return 0;
 }
-
-
