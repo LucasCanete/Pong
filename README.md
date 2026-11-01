@@ -23,7 +23,7 @@ In the first commit the game is left uncompleted on purpose. With the following 
 works accordingly. The next features to be implemented are:
 
 - [x] Add second player and score view
-- [ ] Add Sound
+- [x] Add Sound
 - [x] Add Menu to configure certain details of the game
 
 
@@ -34,3 +34,46 @@ The features are described with each version. Each version also includes 3 files
 Click on the file with your operating system to download it. Afterwards, just make it executable and click on it to start playing!
 
 ## Getting started
+### Main Menu
+
+![menu](images/menu.png)
+
+When you launch the game you'll see the main menu. From here you can:
+
+- **Play:** start a match between two players. 
+- **Settings:** adjust the game options.
+- **Quit:** close the game.
+
+Navigate the menu with  ↑ / ↓ and Enter.
+
+### How to Play
+
+![game](images/game.png)
+
+The goal is to bounce the ball back with your paddle and make your opponent miss it. Every time the ball gets past a player, the other one scores a point. <!-- COMPLETE: score needed to win -->
+
+**Controls**
+
+| Action | Player 1 | Player 2 |
+|--------|----------|----------|
+| Move up | `↑` | `W` |
+| Move down | `↓` | `S` |
+| Pause | `P or Space` | `P or Space`|
+
+
+
+### Pause
+
+![resume](images/resume.png)
+
+You can pause the match at any time with `P` or `Space`. From the pause menu you can:
+
+- **Resume:** go back to the match.
+- **New Game:** Begin a new game. 
+- **Configurations:** Change the level of the match
+
+### Settings
+
+![configurations](images/configurations.png)
+
+Inside the configurations you can change the level of the match. With each level, the ball moves faster and rackets move faster. In level 3, the ball moves even faster but rackets move at same speed as level 2, to make it more difficult.
