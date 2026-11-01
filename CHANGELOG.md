@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/LucasCanete/Pong/compare/v1.6.0...v1.7.0) (2026-11-01)
+
+
+### Features
+
+* sounds are now embedded in the binary ([3b2e699](https://github.com/LucasCanete/Pong/commit/3b2e6995898421dbccfe0acf6048c813821d9669))
+
 # [1.6.0](https://github.com/LucasCanete/Pong/compare/v1.5.0...v1.6.0) (2026-10-30)
 
 
